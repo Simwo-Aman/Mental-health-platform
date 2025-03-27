@@ -1,0 +1,180 @@
+2025-03-15 09:41:41 - Request method: GET
+Not a POST request
+2025-03-15 09:41:44 - Request method: GET
+Not a POST request
+2025-03-15 09:42:32 - Request method: POST
+POST data received: Array
+(
+    [fullname] => Aman Simwogerere
+    [email] => simuamak@gmail.com
+    [password] => 123
+    [role] => professional
+)
+
+Processed data - Name: Aman Simwogerere, Email: simuamak@gmail.com, Role: professional
+Email check - Rows found: 0
+Attempting to insert new user
+Insert successful. User ID: 1
+Session set. Role is professional. Redirecting to appropriate dashboard
+2025-03-15 09:45:48 - Request method: POST
+POST data received: Array
+(
+    [fullname] => Aman Simwogerere
+    [email] => simuamak@gmail.com
+    [password] => 123
+    [role] => professional
+)
+
+Processed data - Name: Aman Simwogerere, Email: simuamak@gmail.com, Role: professional
+Email check - Rows found: 1
+Email already exists
+2025-03-15 09:47:51 - Request method: POST
+POST data received: Array
+(
+    [fullname] => Jacob
+    [email] => jacob@gmail.com
+    [password] => 123
+    [role] => user
+)
+
+Processed data - Name: Jacob, Email: jacob@gmail.com, Role: user
+Email check - Rows found: 0
+Attempting to insert new user
+Insert successful. User ID: 2
+Session set. Role is user. Redirecting to appropriate dashboard
+2025-03-15 09:48:55 - Request method: POST
+POST data received: Array
+(
+    [fullname] => Luke
+    [email] => Luke@gmail.com
+    [password] => 123
+    [role] => professional
+)
+
+Processed data - Name: Luke, Email: Luke@gmail.com, Role: professional
+Email check - Rows found: 0
+Attempting to insert new user
+Insert successful. User ID: 3
+Session set. Role is professional. Redirecting to appropriate dashboard
+2025-03-15 09:49:03 - Request method: POST
+POST data received: Array
+(
+    [fullname] => Luke
+    [email] => Luke@gmail.com
+    [password] => 123
+    [role] => professional
+)
+
+Processed data - Name: Luke, Email: Luke@gmail.com, Role: professional
+Email check - Rows found: 1
+Email already exists
+2025-03-15 09:52:44 - Request method: GET
+Not a POST request
+2025-03-15 09:53:15 - Request method: POST
+POST data received: Array
+(
+    [fullname] => Luke
+    [email] => Luke@gmail.com
+    [password] => 123
+    [role] => professional
+)
+
+Processed data - Name: Luke, Email: Luke@gmail.com, Role: professional
+Email check - Rows found: 1
+Email already exists
+2025-03-15 09:56:38 - Request method: GET
+Not a POST request
+2025-03-15 09:56:41 - Request method: GET
+Not a POST request
+2025-03-15 10:13:15 - Request method: GET
+Not a POST request
+2025-03-15 10:31:15 - Request method: GET
+Not a POST request
+2025-03-15 10:39:41 - Request method: GET
+Not a POST request
+2025-03-15 10:42:43 - Request method: GET
+Not a POST request
+2025-03-15 15:28:32 - Request method: GET
+Not a POST request
+2025-03-16 12:45:44 - Request method: GET
+Not a POST request
+2025-03-17 12:09:44 - Request method: GET
+Not a POST request
+2025-03-17 12:10:50 - Request method: POST
+POST data received: Array
+(
+    [fullname] => samuel mwaba 34567890
+    [email] => samuelmwambasam@gmail.com
+    [password] => 1234567890
+    [role] => user
+)
+
+Processed data - Name: samuel mwaba 34567890, Email: samuelmwambasam@gmail.com, Role: user
+Email check - Rows found: 0
+Attempting to insert new user
+Insert successful. User ID: 4
+Session set. Role is user. Redirecting to appropriate dashboard
+2025-03-17 12:14:32 - Request method: GET
+Not a POST request
+2025-03-17 12:15:04 - Request method: GET
+Not a POST request
+2025-03-17 12:17:56 - Request method: GET
+Not a POST request
+2025-03-18 11:25:53 - Request method: GET
+Not a POST request
+2025-03-18 13:23:12 - Request method: GET
+Not a POST request
+2025-03-19 10:17:29 - Request method: GET
+Not a POST request
+2025-03-21 14:29:20 - Request method: GET
+Not a POST request
+2025-03-25 09:25:02 - Request method: GET
+Not a POST request
+2025-03-25 21:24:41 - Request method: POST
+POST data received: Array
+(
+    [fullname] => Alex Murfin
+    [email] => Alex@gmail.com
+    [password] => 123
+    [role] => professional
+)
+
+Processed data - Name: Alex Murfin, Email: Alex@gmail.com, Role: professional
+Email check - Rows found: 0
+Attempting to insert new user
+Insert successful. User ID: 6
+Session set. Role is professional. Redirecting to appropriate dashboard
+2025-03-26 08:23:15 - Request method: POST
+POST data received: Array
+(
+    [fullname] => Warren 
+    [email] => warren@gmail.com
+    [password] => 123
+    [role] => professional
+)
+
+Processed data - Name: Warren , Email: warren@gmail.com, Role: professional
+Email check - Rows found: 0
+Attempting to insert new user
+Insert successful. User ID: 7
+Session set. Role is professional. Redirecting to appropriate dashboard
+2025-03-26 10:32:16 - Request method: GET
+Not a POST request
+2025-03-26 10:32:56 - Request method: POST
+POST data received: Array
+(
+    [fullname] => hussein
+    [email] => hussein@gmail.com
+    [password] => 123
+    [role] => professional
+)
+
+Processed data - Name: hussein, Email: hussein@gmail.com, Role: professional
+Email check - Rows found: 0
+Attempting to insert new user
+Insert successful. User ID: 8
+Session set. Role is professional. Redirecting to appropriate dashboard
+2025-03-27 08:27:08 - Request method: GET
+Not a POST request
+2025-03-27 09:31:14 - Request method: GET
+Not a POST request

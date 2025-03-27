@@ -1,0 +1,237 @@
+/* Enhanced Style.css for Mental Health Application */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa;
+    line-height: 1.6;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Container for login/signup forms */
+.container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    padding: 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+/* Dashboard container */
+.dashboard-container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+    padding: 30px;
+    margin: 20px auto;
+}
+
+/* Headings */
+h1, h2, h3 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+h1 {
+    font-size: 2.2rem;
+}
+
+h2 {
+    font-size: 1.8rem;
+    color: #3498db;
+}
+
+h3 {
+    font-size: 1.4rem;
+}
+
+/* Form elements */
+input {
+    display: block;
+    width: 100%;
+    margin: 15px 0;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border 0.3s ease;
+    outline: none;
+}
+
+input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Buttons */
+button {
+    background: #3498db;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    width: 100%;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Links */
+a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+p {
+    margin: 15px 0;
+}
+
+/* Card components for dashboard */
+.card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* User info section */
+.user-info {
+    background-color: #f8f9fa;
+    border-left: 4px solid #3498db;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+/* Welcome header with flex layout */
+.welcome-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+/* Logout button styling */
+.logout-btn {
+    background-color: #e74c3c;
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #c0392b;
+    color: white;
+    text-decoration: none;
+}
+
+/* Action buttons for dashboard */
+.action-button {
+    background-color: #2ecc71;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    display: inline-block;
+    margin-right: 10px;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+.action-button:hover {
+    background-color: #27ae60;
+    transform: translateY(-2px);
+}
+
+.action-button.secondary {
+    background-color: #3498db;
+}
+
+.action-button.secondary:hover {
+    background-color: #2980b9;
+}
+
+/* Form container styling */
+.form-container {
+    margin-bottom: 20px;
+}
+
+/* Form header */
+.form-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-header img {
+    width: 80px;
+    margin-bottom: 15px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container, .dashboard-container {
+        margin: 15px;
+        padding: 20px;
+    }
+    
+    .welcome-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .welcome-header h1 {
+        margin-bottom: 15px;
+    }
+}
+
+/* Animation for load */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.container, .dashboard-container {
+    animation: fadeIn 0.5s ease-out;
+}

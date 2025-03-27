@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Support - Sign Up</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <i class="fas fa-brain" style="font-size: 48px; color: #3498db;"></i>
+            <h1>Mental Health Support</h1>
+            <p>Create an account to start your wellness journey</p>
+        </div>
+        
+        <form action="signup.php" method="POST">
+            <div class="form-group">
+                <label for="fullname"><i class="fas fa-user"></i> Full Name</label>
+                <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password"><i class="fas fa-lock"></i> Password</label>
+                <input type="password" id="password" name="password" placeholder="Create a password" required>
+            </div>
+            
+            <div class="form-group" style="margin-top: 20px;">
+                <label><i class="fas fa-user-tag"></i> I am a:</label>
+                <div style="display: flex; margin-top: 10px; gap: 20px;">
+                    <div style="flex: 1; text-align: center; padding: 10px; border: 2px solid #e0e0e0; border-radius: 5px; cursor: pointer;">
+                        <input type="radio" id="user" name="role" value="user" checked style="width: auto; margin-right: 5px;">
+                        <label for="user"><i class="fas fa-user"></i> Individual Seeking Support</label>
+                    </div>
+                    <div style="flex: 1; text-align: center; padding: 10px; border: 2px solid #e0e0e0; border-radius: 5px; cursor: pointer;">
+                        <input type="radio" id="professional" name="role" value="professional" style="width: auto; margin-right: 5px;">
+                        <label for="professional"><i class="fas fa-user-md"></i> Mental Health Professional</label>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit">
+                <i class="fas fa-user-plus"></i> Sign Up
+            </button>
+        </form>
+        
+        <p>Already have an account? <a href="login.html">Login here</a></p>
+        
+        <div class="benefits" style="margin-top: 30px; text-align: left; border-top: 1px solid #eee; padding-top: 20px;">
+            <h3>Why Sign Up?</h3>
+            <ul style="list-style-type: none; padding-left: 5px;">
+                <li><i class="fas fa-check" style="color: #2ecc71;"></i> Track your mental wellness journey</li>
+                <li><i class="fas fa-check" style="color: #2ecc71;"></i> Access personalized resources</li>
+                <li><i class="fas fa-check" style="color: #2ecc71;"></i> Connect with supportive community</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        // Add visual cue for selection
+        document.querySelectorAll('div[style*="border: 2px solid #e0e0e0"]').forEach(item => {
+            const radio = item.querySelector('input[type="radio"]');
+            
+            // Initialize selected style
+            if (radio.checked) {
+                item.style.borderColor = '#3498db';
+                item.style.backgroundColor = '#f0f8ff';
+            }
+            
+            // Add click event to the container
+            item.addEventListener('click', function() {
+                // Reset all containers
+                document.querySelectorAll('div[style*="border"]').forEach(div => {
+                    div.style.borderColor = '#e0e0e0';
+                    div.style.backgroundColor = 'white';
+                });
+                
+                // Select the radio button
+                radio.checked = true;
+                
+                // Highlight this container
+                this.style.borderColor = '#3498db';
+                this.style.backgroundColor = '#f0f8ff';
+            });
+        });
+    </script>
+</body>
+</html>

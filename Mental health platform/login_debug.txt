@@ -1,0 +1,16 @@
+2025-03-15 09:53:29 - Login attempt
+Email: Luke@gmail.com
+User found: Yes
+User ID: 3, Role: professional
+Password verified successfully
+Session variables set. Role: professional
+All session variables: Array
+(
+    [user_id] => 3
+    [fullname] => Luke
+    [role] => professional
+)
+
+Current directory: /Mental health platform
+Dashboard path: /Mental health platform
+Redirecting to: /Mental health platform/professional_dashboard.php
