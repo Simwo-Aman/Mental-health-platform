@@ -68,7 +68,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
 // Get filter parameters
 $category_filter = isset($_GET['category']) ? $_GET['category'] : '';
 $status_filter = isset($_GET['status']) ? $_GET['status'] : 'all';
-$search_term = isset($_GET['search']) ? $_GET['search'] : '';
 $professional_id = isset($_GET['professional_id']) ? intval($_GET['professional_id']) : 0;
 
 // Build query based on filters
@@ -99,16 +98,6 @@ if ($professional_id > 0) {
     $query .= " AND r.professional_id = ?";
     $params[] = $professional_id;
     $param_types .= "i";
-}
-
-// Apply search filter
-if (!empty($search_term)) {
-    $search_param = "%$search_term%";
-    $query .= " AND (r.title LIKE ? OR r.description LIKE ? OR u.fullname LIKE ?)";
-    $params[] = $search_param;
-    $params[] = $search_param;
-    $params[] = $search_param;
-    $param_types .= "sss";
 }
 
 // Add sorting
@@ -184,18 +173,6 @@ $unpublished_resources = $unpublished_resources_query->fetch_assoc()['count'];
         .filter-tab.active {
             background-color: #3498db;
             color: white;
-        }
-        .search-box {
-            flex: 1;
-            max-width: 400px;
-            display: flex;
-            gap: 5px;
-        }
-        .search-box input {
-            flex: 1;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
         }
         .resource-card {
             border: 1px solid #eee;
@@ -345,49 +322,29 @@ $unpublished_resources = $unpublished_resources_query->fetch_assoc()['count'];
         <div class="card">
             <div class="filter-bar">
                 <div class="filter-tabs">
-                    <a href="admin_resources.php<?php echo !empty($category_filter) ? '?category='.urlencode($category_filter) : ''; ?><?php echo !empty($search_term) ? (!empty($category_filter) ? '&' : '?').'search='.urlencode($search_term) : ''; ?>" class="filter-tab <?php echo $status_filter == 'all' ? 'active' : ''; ?>">
+                    <a href="admin_resources.php<?php echo !empty($category_filter) ? '?category='.urlencode($category_filter) : ''; ?>" class="filter-tab <?php echo $status_filter == 'all' ? 'active' : ''; ?>">
                         All Resources
                     </a>
-                    <a href="admin_resources.php?status=published<?php echo !empty($category_filter) ? '&category='.urlencode($category_filter) : ''; ?><?php echo !empty($search_term) ? '&search='.urlencode($search_term) : ''; ?>" class="filter-tab <?php echo $status_filter == 'published' ? 'active' : ''; ?>">
+                    <a href="admin_resources.php?status=published<?php echo !empty($category_filter) ? '&category='.urlencode($category_filter) : ''; ?>" class="filter-tab <?php echo $status_filter == 'published' ? 'active' : ''; ?>">
                         Published
                     </a>
-                    <a href="admin_resources.php?status=unpublished<?php echo !empty($category_filter) ? '&category='.urlencode($category_filter) : ''; ?><?php echo !empty($search_term) ? '&search='.urlencode($search_term) : ''; ?>" class="filter-tab <?php echo $status_filter == 'unpublished' ? 'active' : ''; ?>">
+                    <a href="admin_resources.php?status=unpublished<?php echo !empty($category_filter) ? '&category='.urlencode($category_filter) : ''; ?>" class="filter-tab <?php echo $status_filter == 'unpublished' ? 'active' : ''; ?>">
                         Unpublished
                     </a>
                 </div>
-                
-                <form class="search-box" action="admin_resources.php" method="GET">
-                    <?php if(!empty($status_filter) && $status_filter != 'all'): ?>
-                        <input type="hidden" name="status" value="<?php echo $status_filter; ?>">
-                    <?php endif; ?>
-                    
-                    <?php if(!empty($category_filter)): ?>
-                        <input type="hidden" name="category" value="<?php echo $category_filter; ?>">
-                    <?php endif; ?>
-                    
-                    <input type="text" name="search" placeholder="Search by title or description" value="<?php echo htmlspecialchars($search_term); ?>">
-                    <button type="submit" class="action-button secondary" style="margin-top: 0; padding: 8px;">
-                        <i class="fas fa-search"></i>
-                    </button>
-                    <?php if(!empty($search_term)): ?>
-                        <a href="admin_resources.php<?php echo !empty($status_filter) && $status_filter != 'all' ? '?status='.$status_filter : ''; ?><?php echo !empty($category_filter) ? (!empty($status_filter) && $status_filter != 'all' ? '&' : '?').'category='.urlencode($category_filter) : ''; ?>" class="action-button secondary" style="margin-top: 0; padding: 8px; text-decoration: none;">
-                            <i class="fas fa-times"></i>
-                        </a>
-                    <?php endif; ?>
-                </form>
             </div>
             
             <?php if(count($categories) > 0): ?>
                 <div class="categories-filter">
                     <?php foreach($categories as $cat_id => $cat_name): ?>
-                        <a href="admin_resources.php?category=<?php echo urlencode($cat_id); ?><?php echo !empty($status_filter) && $status_filter != 'all' ? '&status='.$status_filter : ''; ?><?php echo !empty($search_term) ? '&search='.urlencode($search_term) : ''; ?>" 
+                        <a href="admin_resources.php?category=<?php echo urlencode($cat_id); ?><?php echo !empty($status_filter) && $status_filter != 'all' ? '&status='.$status_filter : ''; ?>" 
                            class="filter-tab <?php echo $category_filter == $cat_id ? 'active' : ''; ?>">
                             <?php echo htmlspecialchars($cat_name); ?>
                         </a>
                     <?php endforeach; ?>
                     
                     <?php if(!empty($category_filter)): ?>
-                        <a href="admin_resources.php<?php echo !empty($status_filter) && $status_filter != 'all' ? '?status='.$status_filter : ''; ?><?php echo !empty($search_term) ? (!empty($status_filter) && $status_filter != 'all' ? '&' : '?').'search='.urlencode($search_term) : ''; ?>" 
+                        <a href="admin_resources.php<?php echo !empty($status_filter) && $status_filter != 'all' ? '?status='.$status_filter : ''; ?>" 
                            class="filter-tab" style="background-color: #e74c3c; color: white;">
                             <i class="fas fa-times"></i> Clear Category
                         </a>
@@ -437,20 +394,20 @@ $unpublished_resources = $unpublished_resources_query->fetch_assoc()['count'];
                             </div>
                             
                             <div class="resource-actions">
-    <form action="admin_resources.php" method="POST" style="display: inline;">
-        <input type="hidden" name="action" value="toggle_publish">
-        <input type="hidden" name="resource_id" value="<?php echo $resource['id']; ?>">
-        <button type="submit" class="action-button <?php echo $resource['is_published'] ? 'secondary' : ''; ?>" style="padding: 5px 10px; font-size: 0.9rem;">
-            <i class="fas <?php echo $resource['is_published'] ? 'fa-eye-slash' : 'fa-eye'; ?>"></i> 
-            <?php echo $resource['is_published'] ? 'Unpublish' : 'Publish'; ?>
-        </button>
-    </form>
-    
-    <button type="button" class="action-button" style="background-color: #e74c3c; padding: 5px 10px; font-size: 0.9rem;" 
-            onclick="openDeleteModal(<?php echo $resource['id']; ?>, '<?php echo htmlspecialchars(addslashes($resource['title'])); ?>')">
-        <i class="fas fa-trash"></i> Delete
-    </button>
-</div>
+                                <form action="admin_resources.php" method="POST" style="display: inline;">
+                                    <input type="hidden" name="action" value="toggle_publish">
+                                    <input type="hidden" name="resource_id" value="<?php echo $resource['id']; ?>">
+                                    <button type="submit" class="action-button <?php echo $resource['is_published'] ? 'secondary' : ''; ?>" style="padding: 5px 10px; font-size: 0.9rem;">
+                                        <i class="fas <?php echo $resource['is_published'] ? 'fa-eye-slash' : 'fa-eye'; ?>"></i> 
+                                        <?php echo $resource['is_published'] ? 'Unpublish' : 'Publish'; ?>
+                                    </button>
+                                </form>
+                                
+                                <button type="button" class="action-button" style="background-color: #e74c3c; padding: 5px 10px; font-size: 0.9rem;" 
+                                        onclick="openDeleteModal(<?php echo $resource['id']; ?>, '<?php echo htmlspecialchars(addslashes($resource['title'])); ?>')">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </div>
                         </div>
                         
                         <div class="resource-meta">

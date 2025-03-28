@@ -102,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
         $new_role = $_POST['new_role'];
         
         // Validate role
-        if (!in_array($new_role, ['user', 'professional'])) {
+        if (!in_array($new_role, ['user', 'professional', 'admin'])) {
             $error = "Invalid role selected.";
         } else {
             // Check if user exists and is not an admin
@@ -137,13 +137,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
 
 // Get filter parameters
 $role_filter = isset($_GET['role']) ? $_GET['role'] : 'all';
-$search_term = isset($_GET['search']) ? $_GET['search'] : '';
 
 // Build query based on filters
 $query = "SELECT * FROM users WHERE 1=1";
-
-$params = [];
-$param_types = "";
 
 // Apply role filter
 if ($role_filter == 'user') {
@@ -154,25 +150,11 @@ if ($role_filter == 'user') {
     $query .= " AND role = 'admin'";
 }
 
-// Apply search filter
-if (!empty($search_term)) {
-    $search_param = "%$search_term%";
-    $query .= " AND (fullname LIKE ? OR email LIKE ?)";
-    $params[] = $search_param;
-    $params[] = $search_param;
-    $param_types .= "ss";
-}
-
 // Add sorting
 $query .= " ORDER BY created_at DESC";
 
 // Prepare and execute query
 $stmt = $conn->prepare($query);
-
-if (!empty($params)) {
-    $stmt->bind_param($param_types, ...$params);
-}
-
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -225,18 +207,6 @@ $admin_users = $admin_users_query->fetch_assoc()['count'];
         .filter-tab.active {
             background-color: #3498db;
             color: white;
-        }
-        .search-box {
-            flex: 1;
-            max-width: 400px;
-            display: flex;
-            gap: 5px;
-        }
-        .search-box input {
-            flex: 1;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
         }
         .user-card {
             border: 1px solid #eee;
@@ -371,32 +341,19 @@ $admin_users = $admin_users_query->fetch_assoc()['count'];
         <div class="card">
             <div class="filter-bar">
                 <div class="filter-tabs">
-                    <a href="admin_users.php?role=all<?php echo !empty($search_term) ? '&search='.urlencode($search_term) : ''; ?>" class="filter-tab <?php echo $role_filter == 'all' ? 'active' : ''; ?>">
+                    <a href="admin_users.php?role=all" class="filter-tab <?php echo $role_filter == 'all' ? 'active' : ''; ?>">
                         All Users
                     </a>
-                    <a href="admin_users.php?role=user<?php echo !empty($search_term) ? '&search='.urlencode($search_term) : ''; ?>" class="filter-tab <?php echo $role_filter == 'user' ? 'active' : ''; ?>">
+                    <a href="admin_users.php?role=user" class="filter-tab <?php echo $role_filter == 'user' ? 'active' : ''; ?>">
                         Regular Users
                     </a>
-                    <a href="admin_users.php?role=professional<?php echo !empty($search_term) ? '&search='.urlencode($search_term) : ''; ?>" class="filter-tab <?php echo $role_filter == 'professional' ? 'active' : ''; ?>">
+                    <a href="admin_users.php?role=professional" class="filter-tab <?php echo $role_filter == 'professional' ? 'active' : ''; ?>">
                         Professionals
                     </a>
-                    <a href="admin_users.php?role=admin<?php echo !empty($search_term) ? '&search='.urlencode($search_term) : ''; ?>" class="filter-tab <?php echo $role_filter == 'admin' ? 'active' : ''; ?>">
+                    <a href="admin_users.php?role=admin" class="filter-tab <?php echo $role_filter == 'admin' ? 'active' : ''; ?>">
                         Admins
                     </a>
                 </div>
-                
-                <form class="search-box" action="admin_users.php" method="GET">
-                    <input type="hidden" name="role" value="<?php echo $role_filter; ?>">
-                    <input type="text" name="search" placeholder="Search by name or email" value="<?php echo htmlspecialchars($search_term); ?>">
-                    <button type="submit" class="action-button secondary" style="margin-top: 0; padding: 8px;">
-                        <i class="fas fa-search"></i>
-                    </button>
-                    <?php if(!empty($search_term)): ?>
-                        <a href="admin_users.php?role=<?php echo $role_filter; ?>" class="action-button secondary" style="margin-top: 0; padding: 8px; text-decoration: none;">
-                            <i class="fas fa-times"></i>
-                        </a>
-                    <?php endif; ?>
-                </form>
             </div>
             
             <h2>
@@ -488,6 +445,7 @@ $admin_users = $admin_users_query->fetch_assoc()['count'];
                     <select id="new_role" name="new_role" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
                         <option value="user">Regular User</option>
                         <option value="professional">Professional</option>
+                        <option value="admin">Administrator</option>
                     </select>
                 </div>
                 

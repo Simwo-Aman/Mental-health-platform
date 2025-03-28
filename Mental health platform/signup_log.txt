@@ -178,3 +178,79 @@ Session set. Role is professional. Redirecting to appropriate dashboard
 Not a POST request
 2025-03-27 09:31:14 - Request method: GET
 Not a POST request
+2025-03-27 10:02:06 - Request method: GET
+Not a POST request
+2025-03-27 10:43:48 - Request method: POST
+POST data received: Array
+(
+    [fullname] => Jayshil Nakeshri
+    [email] => jay@gmail.com
+    [password] => 123
+    [role] => professional
+)
+
+Processed data - Name: Jayshil Nakeshri, Email: jay@gmail.com, Role: professional
+Email check - Rows found: 0
+Attempting to insert new user
+Insert successful. User ID: 9
+Session set. Role is professional. Redirecting to appropriate dashboard
+2025-03-27 10:45:11 - Request method: GET
+Not a POST request
+2025-03-27 10:57:17 - Request method: POST
+POST data received: Array
+(
+    [fullname] => Alice
+    [email] => Alice@gmail.com
+    [password] => 123
+    [role] => professional
+)
+
+Processed data - Name: Alice, Email: Alice@gmail.com, Role: professional
+Email check - Rows found: 0
+Attempting to insert new user
+Insert successful. User ID: 10
+Session set. Role is professional. Redirecting to appropriate dashboard
+2025-03-27 11:05:14 - Request method: POST
+POST data received: Array
+(
+    [fullname] => Ali Nadim
+    [email] => Ali@gmail.com
+    [password] => 123
+    [role] => professional
+)
+
+Processed data - Name: Ali Nadim, Email: Ali@gmail.com, Role: professional
+Email check - Rows found: 0
+Attempting to insert new user
+Insert successful. User ID: 11
+Session set. Role is professional. Redirecting to appropriate dashboard
+2025-03-27 13:25:25 - Request method: POST
+POST data received: Array
+(
+    [fullname] => Lisa Marie
+    [email] => Lisa@gmail.com
+    [password] => 123
+    [role] => user
+)
+
+Processed data - Name: Lisa Marie, Email: Lisa@gmail.com, Role: user
+Email check - Rows found: 0
+Attempting to insert new user
+Insert successful. User ID: 12
+Session set. Role is user. Redirecting to appropriate dashboard
+2025-03-27 13:26:53 - Request method: POST
+POST data received: Array
+(
+    [fullname] => Derrick Meyers
+    [email] => Derrick@gmail.com
+    [password] => 123
+    [role] => professional
+)
+
+Processed data - Name: Derrick Meyers, Email: Derrick@gmail.com, Role: professional
+Email check - Rows found: 0
+Attempting to insert new user
+Insert successful. User ID: 13
+Session set. Role is professional. Redirecting to appropriate dashboard
+2025-03-27 14:19:38 - Request method: GET
+Not a POST request

@@ -40,16 +40,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action'])) {
 
 // Get filter parameters
 $status_filter = isset($_GET['status']) ? $_GET['status'] : 'pending';
-$search_term = isset($_GET['search']) ? $_GET['search'] : '';
 
 // Build query based on filters
 $query = "SELECT pp.*, u.fullname, u.email, u.created_at 
           FROM professional_profiles pp
           JOIN users u ON pp.user_id = u.id
           WHERE 1=1";
-
-$params = [];
-$param_types = "";
 
 // Apply status filter
 if ($status_filter == 'pending') {
@@ -60,26 +56,10 @@ if ($status_filter == 'pending') {
     $query .= " AND pp.verified = 0 AND pp.rejection_reason IS NOT NULL";
 }
 
-// Apply search filter
-if (!empty($search_term)) {
-    $search_param = "%$search_term%";
-    $query .= " AND (u.fullname LIKE ? OR u.email LIKE ? OR pp.specialty LIKE ? OR pp.license_number LIKE ?)";
-    $params[] = $search_param;
-    $params[] = $search_param;
-    $params[] = $search_param;
-    $params[] = $search_param;
-    $param_types .= "ssss";
-}
-
 $query .= " ORDER BY u.created_at DESC";
 
 // Prepare and execute query
 $stmt = $conn->prepare($query);
-
-if (!empty($params)) {
-    $stmt->bind_param($param_types, ...$params);
-}
-
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -131,18 +111,6 @@ $verified_count = $verified_count_query->fetch_assoc()['count'];
         .filter-tab.active {
             background-color: #3498db;
             color: white;
-        }
-        .search-box {
-            flex: 1;
-            max-width: 400px;
-            display: flex;
-            gap: 5px;
-        }
-        .search-box input {
-            flex: 1;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
         }
         .prof-card {
             border: 1px solid #eee;
@@ -284,29 +252,16 @@ $verified_count = $verified_count_query->fetch_assoc()['count'];
         <div class="card">
             <div class="filter-bar">
                 <div class="filter-tabs">
-                    <a href="admin_verification.php?status=pending<?php echo !empty($search_term) ? '&search='.urlencode($search_term) : ''; ?>" class="filter-tab <?php echo $status_filter == 'pending' ? 'active' : ''; ?>">
+                    <a href="admin_verification.php?status=pending" class="filter-tab <?php echo $status_filter == 'pending' ? 'active' : ''; ?>">
                         Pending Verification
                     </a>
-                    <a href="admin_verification.php?status=verified<?php echo !empty($search_term) ? '&search='.urlencode($search_term) : ''; ?>" class="filter-tab <?php echo $status_filter == 'verified' ? 'active' : ''; ?>">
+                    <a href="admin_verification.php?status=verified" class="filter-tab <?php echo $status_filter == 'verified' ? 'active' : ''; ?>">
                         Verified
                     </a>
-                    <a href="admin_verification.php?status=all<?php echo !empty($search_term) ? '&search='.urlencode($search_term) : ''; ?>" class="filter-tab <?php echo $status_filter == 'all' ? 'active' : ''; ?>">
+                    <a href="admin_verification.php?status=all" class="filter-tab <?php echo $status_filter == 'all' ? 'active' : ''; ?>">
                         All Professionals
                     </a>
                 </div>
-                
-                <form class="search-box" action="admin_verification.php" method="GET">
-                    <input type="hidden" name="status" value="<?php echo $status_filter; ?>">
-                    <input type="text" name="search" placeholder="Search by name, email or specialty" value="<?php echo htmlspecialchars($search_term); ?>">
-                    <button type="submit" class="action-button secondary" style="margin-top: 0; padding: 8px;">
-                        <i class="fas fa-search"></i>
-                    </button>
-                    <?php if(!empty($search_term)): ?>
-                        <a href="admin_verification.php?status=<?php echo $status_filter; ?>" class="action-button secondary" style="margin-top: 0; padding: 8px; text-decoration: none;">
-                            <i class="fas fa-times"></i>
-                        </a>
-                    <?php endif; ?>
-                </form>
             </div>
             
             <h2>
@@ -428,7 +383,7 @@ $verified_count = $verified_count_query->fetch_assoc()['count'];
         </div>
         
         <footer style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #7f8c8d;">
-            <p>&copy; 2025 Mental Health Support. All rights reserved.</p>
+            <p>© 2025 Mental Health Support. All rights reserved.</p>
         </footer>
     </div>
     
@@ -437,7 +392,7 @@ $verified_count = $verified_count_query->fetch_assoc()['count'];
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Reject Professional Verification</h3>
-                <span class="close-modal" onclick="closeModal()">&times;</span>
+                <span class="close-modal" onclick="closeModal()">×</span>
             </div>
             <form action="admin_verification.php" method="POST">
                 <input type="hidden" name="action" value="reject">

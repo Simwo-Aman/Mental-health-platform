@@ -17,9 +17,6 @@ $user_role = $_SESSION['role'];
 // Get selected category (if any)
 $selected_category = isset($_GET['category']) ? $_GET['category'] : '';
 
-// Get search query (if any)
-$search_query = isset($_GET['search']) ? $_GET['search'] : '';
-
 // Resource categories
 $categories = [
     'anxiety' => 'Anxiety Management',
@@ -47,15 +44,6 @@ if ($selected_category) {
     $resources_query .= "AND r.category = ? ";
     $params[] = $selected_category;
     $param_types .= "s";
-}
-
-// Add search query if provided
-if ($search_query) {
-    $search_term = "%$search_query%";
-    $resources_query .= "AND (r.title LIKE ? OR r.description LIKE ?) ";
-    $params[] = $search_term;
-    $params[] = $search_term;
-    $param_types .= "ss";
 }
 
 // Order by most recent
@@ -101,7 +89,7 @@ foreach ($categories as $cat_id => $cat_name) {
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             padding: 20px;
             height: fit-content;
-              }
+        }
         .category-link {
             display: flex;
             justify-content: space-between;
@@ -158,9 +146,6 @@ foreach ($categories as $cat_id => $cat_name) {
             font-size: 0.9rem;
             color: #7f8c8d;
         }
-        .search-box {
-            margin-bottom: 20px;
-        }
     </style>
 </head>
 <body style="background-color: #f5f7fa; align-items: flex-start; padding-top: 30px;">
@@ -175,36 +160,19 @@ foreach ($categories as $cat_id => $cat_name) {
             </a>
         </div>
         
-        <div class="search-box">
-            <form action="resources.php" method="GET" style="display: flex; gap: 10px;">
-                <?php if($selected_category): ?>
-                    <input type="hidden" name="category" value="<?php echo htmlspecialchars($selected_category); ?>">
-                <?php endif; ?>
-                <input type="text" name="search" placeholder="Search resources..." value="<?php echo htmlspecialchars($search_query); ?>" style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                <button type="submit" class="action-button" style="margin-top: 0;">
-                    <i class="fas fa-search"></i> Search
-                </button>
-                <?php if($search_query): ?>
-                    <a href="<?php echo $selected_category ? "resources.php?category=" . urlencode($selected_category) : "resources.php"; ?>" class="action-button secondary" style="text-decoration: none;">
-                        <i class="fas fa-times"></i> Clear
-                    </a>
-                <?php endif; ?>
-            </form>
-        </div>
-        
         <div class="resources-container">
             <!-- Categories Sidebar -->
             <div class="sidebar">
                 <h3><i class="fas fa-tags"></i> Categories</h3>
                 
-                <a href="resources.php<?php echo $search_query ? "?search=" . urlencode($search_query) : ""; ?>" class="category-link <?php echo $selected_category == '' ? 'active' : ''; ?>">
+                <a href="resources.php" class="category-link <?php echo $selected_category == '' ? 'active' : ''; ?>">
                     <span><i class="fas fa-layer-group"></i> All Resources</span>
                     <span class="category-count"><?php echo $resources_result->num_rows; ?></span>
                 </a>
                 
                 <?php foreach($categories as $cat_id => $cat_name): ?>
                     <?php if($category_counts[$cat_id] > 0): ?>
-                        <a href="resources.php?category=<?php echo urlencode($cat_id); ?><?php echo $search_query ? "&search=" . urlencode($search_query) : ""; ?>" class="category-link <?php echo $selected_category == $cat_id ? 'active' : ''; ?>">
+                        <a href="resources.php?category=<?php echo urlencode($cat_id); ?>" class="category-link <?php echo $selected_category == $cat_id ? 'active' : ''; ?>">
                             <span><?php echo htmlspecialchars($cat_name); ?></span>
                             <span class="category-count"><?php echo $category_counts[$cat_id]; ?></span>
                         </a>
@@ -214,16 +182,10 @@ foreach ($categories as $cat_id => $cat_name) {
             
             <!-- Resources List -->
             <div>
-                <?php if($search_query || $selected_category): ?>
+                <?php if($selected_category): ?>
                     <div style="margin-bottom: 20px;">
                         <h3>
-                            <?php if($search_query && $selected_category): ?>
-                                Search results for "<?php echo htmlspecialchars($search_query); ?>" in <?php echo htmlspecialchars($categories[$selected_category]); ?>
-                            <?php elseif($search_query): ?>
-                                Search results for "<?php echo htmlspecialchars($search_query); ?>"
-                            <?php elseif($selected_category): ?>
-                                Resources in <?php echo htmlspecialchars($categories[$selected_category]); ?>
-                            <?php endif; ?>
+                            Resources in <?php echo htmlspecialchars($categories[$selected_category]); ?>
                         </h3>
                     </div>
                 <?php endif; ?>
@@ -257,9 +219,7 @@ foreach ($categories as $cat_id => $cat_name) {
                     <div style="text-align: center; padding: 40px 0;">
                         <i class="fas fa-search" style="font-size: 48px; color: #bdc3c7; margin-bottom: 20px;"></i>
                         <h3>No resources found</h3>
-                        <?php if($search_query): ?>
-                            <p>No resources match your search "<?php echo htmlspecialchars($search_query); ?>"</p>
-                        <?php elseif($selected_category): ?>
+                        <?php if($selected_category): ?>
                             <p>No resources available in the selected category</p>
                         <?php else: ?>
                             <p>There are currently no published resources</p>
@@ -278,4 +238,3 @@ foreach ($categories as $cat_id => $cat_name) {
     </div>
 </body>
 </html>
-Last edited 3 minutes ago

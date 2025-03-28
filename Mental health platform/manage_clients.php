@@ -275,20 +275,29 @@ $clients_result = $clients_stmt->get_result();
         </div>
         <?php endif; ?>
         
-        <div class="card">
-            <h2><i class="fas fa-user-plus"></i> Add New Client</h2>
-            <p>Enter the email of the user you want to add as a client.</p>
-            
-            <form action="manage_clients.php" method="POST" style="margin-top: 20px;">
-                <input type="hidden" name="action" value="add_client">
-                <div style="display: flex; gap: 10px;">
-                    <input type="email" name="client_email" placeholder="Enter client's email" required style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                    <button type="submit" class="action-button" style="margin-top: 0;">
-                        <i class="fas fa-plus"></i> Add Client
-                    </button>
-                </div>
-            </form>
+<div class="card">
+    <h2><i class="fas fa-user-plus"></i> Add New Client</h2>
+    <p>Enter the email of the user you want to add as a client.</p>
+    
+    <form action="manage_clients.php" method="POST" style="margin-top: 20px; max-width: 500px;">
+        <input type="hidden" name="action" value="add_client">
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+            <div style="position: relative; width: 100%;">
+                <i class="fas fa-envelope" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #888;"></i>
+                <input type="email" name="client_email" placeholder="Enter client's email address" required 
+                       style="width: 100%; padding: 12px 15px 12px 45px; border: 1px solid #ccc; border-radius: 10px; 
+                              font-size: 16px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+            </div>
+            <div style="text-align: center;">
+                <button type="submit" class="action-button" 
+                        style="margin: 0; padding: 8px 20px; border-radius: 5px; font-size: 14px; 
+                               width: auto; display: inline-block;">
+                    <i class="fas fa-plus"></i> Add Client
+                </button>
+            </div>
         </div>
+    </form>
+</div>
         
         <div class="card">
             <h2><i class="fas fa-users"></i> Your Clients</h2>
