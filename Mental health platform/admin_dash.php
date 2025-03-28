@@ -137,7 +137,7 @@ $pending_verification_query = $conn->query("SELECT pp.*, u.fullname, u.email, u.
     <div class="stat-card">
         <i class="fas fa-users" style="font-size: 24px; color: #3498db;"></i>
         <div class="stat-number"><?php echo $user_count; ?></div>
-        <div>Total Users</div>
+        <div>Normal Users</div>
     </div>
     <div class="stat-card">
         <i class="fas fa-user-md" style="font-size: 24px; color: #3498db;"></i>
@@ -187,6 +187,17 @@ $pending_verification_query = $conn->query("SELECT pp.*, u.fullname, u.email, u.
                 <p>Review, edit, and moderate mental health resources.</p>
             </div>
         </a>
+
+
+<a href="admin_reports.php" class="feature-card" style="text-decoration: none; color: inherit;">
+    <div class="feature-icon">
+        <i class="fas fa-file-pdf"></i>
+    </div>
+    <div>
+        <h3>Generate Reports</h3>
+        <p>Create and download PDF reports for platform activity, professionals, and connections.</p>
+    </div>
+</a>
     </div>
 </div>
         

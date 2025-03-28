@@ -143,7 +143,74 @@ if (isset($_GET['action']) && $_GET['action'] == 'status' && isset($_GET['client
         $error = "Invalid status value.";
     }
 }
+// Handle approve request action
+if (isset($_GET['action']) && $_GET['action'] == 'approve' && isset($_GET['client_id'])) {
+    $client_id = intval($_GET['client_id']);
+    
+    // Check if request exists
+    $check_request = $conn->prepare("SELECT * FROM professional_clients 
+                                   WHERE professional_id = ? AND client_id = ? AND status = 'pending'");
+    $check_request->bind_param("ii", $user_id, $client_id);
+    $check_request->execute();
+    $request_result = $check_request->get_result();
+    
+    if ($request_result->num_rows > 0) {
+        // Update status to active
+        $approve_request = $conn->prepare("UPDATE professional_clients 
+                                         SET status = 'active' 
+                                         WHERE professional_id = ? AND client_id = ?");
+        $approve_request->bind_param("ii", $user_id, $client_id);
+        
+        if ($approve_request->execute()) {
+            // Create chat connection if it doesn't exist
+            $check_chat = $conn->prepare("SELECT id FROM chat_connections WHERE professional_id = ? AND client_id = ?");
+            $check_chat->bind_param("ii", $user_id, $client_id);
+            $check_chat->execute();
+            $chat_result = $check_chat->get_result();
+            
+            if ($chat_result->num_rows == 0) {
+                // Create chat connection
+                $create_chat = $conn->prepare("INSERT INTO chat_connections (professional_id, client_id) VALUES (?, ?)");
+                $create_chat->bind_param("ii", $user_id, $client_id);
+                $create_chat->execute();
+            }
+            
+            $message = "Connection request has been approved.";
+        } else {
+            $error = "Error approving request: " . $conn->error;
+        }
+    } else {
+        $error = "Connection request not found.";
+    }
+}
 
+// Handle reject request action
+if (isset($_GET['action']) && $_GET['action'] == 'reject' && isset($_GET['client_id'])) {
+    $client_id = intval($_GET['client_id']);
+    
+    // Check if request exists
+    $check_request = $conn->prepare("SELECT * FROM professional_clients 
+                                   WHERE professional_id = ? AND client_id = ? AND status = 'pending'");
+    $check_request->bind_param("ii", $user_id, $client_id);
+    $check_request->execute();
+    $request_result = $check_request->get_result();
+    
+    if ($request_result->num_rows > 0) {
+        // Update status to inactive or delete the request
+        $reject_request = $conn->prepare("UPDATE professional_clients 
+                                        SET status = 'inactive' 
+                                        WHERE professional_id = ? AND client_id = ?");
+        $reject_request->bind_param("ii", $user_id, $client_id);
+        
+        if ($reject_request->execute()) {
+            $message = "Connection request has been rejected.";
+        } else {
+            $error = "Error rejecting request: " . $conn->error;
+        }
+    } else {
+        $error = "Connection request not found.";
+    }
+}
 // Get all clients for this professional
 $clients_query = "SELECT pc.*, u.fullname, u.email, u.created_at as user_since 
                 FROM professional_clients pc 
@@ -154,7 +221,20 @@ $clients_stmt = $conn->prepare($clients_query);
 $clients_stmt->bind_param("i", $user_id);
 $clients_stmt->execute();
 $clients_result = $clients_stmt->get_result();
+
+// Get pending requests
+$pending_requests_query = "SELECT pc.*, u.fullname, u.email, u.created_at as user_since 
+                        FROM professional_clients pc 
+                        JOIN users u ON pc.client_id = u.id 
+                        WHERE pc.professional_id = ? AND pc.status = 'pending' 
+                        ORDER BY pc.created_at DESC";
+$pending_requests_stmt = $conn->prepare($pending_requests_query);
+$pending_requests_stmt->bind_param("i", $user_id);
+$pending_requests_stmt->execute();
+$pending_requests_result = $pending_requests_stmt->get_result();
+$pending_requests_count = $pending_requests_result->num_rows;
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -298,9 +378,43 @@ $clients_result = $clients_stmt->get_result();
         </div>
     </form>
 </div>
+
+<?php if($pending_requests_count > 0): ?>
+<div class="card">
+    <h2><i class="fas fa-user-clock"></i> Pending Connection Requests <span style="font-size: 1rem; font-weight: normal;">(<?php echo $pending_requests_count; ?>)</span></h2>
+    <p>Users have requested to connect with you. Review and approve or reject their requests.</p>
+    
+    <div style="margin-top: 20px;">
+        <?php while($request = $pending_requests_result->fetch_assoc()): ?>
+            <div class="client-card pending">
+                <h3>
+                    <?php echo htmlspecialchars($request['fullname']); ?>
+                    <span class="status-badge pending">
+                        Request Pending
+                    </span>
+                </h3>
+                
+                <p><strong>Email:</strong> <?php echo htmlspecialchars($request['email']); ?></p>
+                <p><strong>User Since:</strong> <?php echo date('M d, Y', strtotime($request['user_since'])); ?></p>
+                <p><strong>Requested:</strong> <?php echo date('M d, Y', strtotime($request['created_at'])); ?></p>
+                
+                <div style="margin-top: 15px; display: flex; gap: 10px;">
+                    <a href="manage_clients.php?action=approve&client_id=<?php echo $request['client_id']; ?>" class="action-button" style="text-decoration: none;">
+                        <i class="fas fa-check"></i> Approve
+                    </a>
+                    
+                    <a href="manage_clients.php?action=reject&client_id=<?php echo $request['client_id']; ?>" class="action-button secondary" style="text-decoration: none;" onclick="return confirm('Are you sure you want to reject this connection request?');">
+                        <i class="fas fa-times"></i> Reject
+                    </a>
+                </div>
+            </div>
+        <?php endwhile; ?>
+    </div>
+</div>
+<?php endif; ?>
         
-        <div class="card">
-            <h2><i class="fas fa-users"></i> Your Clients</h2>
+<div class="card">
+    <h2><i class="fas fa-users"></i> Your Clients</h2>
             
             <?php if($clients_result->num_rows > 0): ?>
                 <p>You have <?php echo $clients_result->num_rows; ?> client(s) in your management list.</p>

@@ -254,3 +254,17 @@ Insert successful. User ID: 13
 Session set. Role is professional. Redirecting to appropriate dashboard
 2025-03-27 14:19:38 - Request method: GET
 Not a POST request
+2025-03-28 08:51:27 - Request method: POST
+POST data received: Array
+(
+    [fullname] => Martin Martin
+    [email] => Martin@gmail.com
+    [password] => 123
+    [role] => user
+)
+
+Processed data - Name: Martin Martin, Email: Martin@gmail.com, Role: user
+Email check - Rows found: 0
+Attempting to insert new user
+Insert successful. User ID: 14
+Session set. Role is user. Redirecting to appropriate dashboard

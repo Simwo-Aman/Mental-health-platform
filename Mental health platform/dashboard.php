@@ -223,6 +223,17 @@ $unread_count = $unread_result->num_rows > 0 ? $unread_result->fetch_assoc()['co
                     </div>
                 </a>
                 
+
+<a href="available_professionals.php" class="feature-card" style="text-decoration: none; color: inherit;">
+    <h3><i class="fas fa-user-md" style="color: #3498db;"></i> Find Professionals</h3>
+    <p>Browse and connect with verified mental health professionals.</p>
+    <div style="margin-top: 15px;">
+        <span class="action-button secondary" style="padding: 5px 10px; font-size: 0.9rem;">
+            Browse Professionals
+        </span>
+    </div>
+</a>
+                
                 <a href="resources.php" class="feature-card" style="text-decoration: none; color: inherit;">
                     <h3><i class="fas fa-book-medical" style="color: #3498db;"></i> Resource Library</h3>
                     <p>Access a collection of mental health resources created by professionals.</p>
